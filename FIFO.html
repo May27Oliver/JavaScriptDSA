@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- First In First Out，先進先出，先來先服務 -->
+<script>
+function Queue(){
+    //這裡是屬性與方法
+    var items = [];
+    /*可用的方法：
+       enqueue(element(s)):向佇列尾部添加一個(或多個)新的項目。
+       dequeue():移除佇列的第一(即排在佇列最前面的)項目，並返回被移除的元素。
+       front():返回佇列中第一個元素，最先被添加，也最先被移除的元素。佇列通常不做任何變動（不移除元素，指返回元素資訊，與Stack方法裡的peek()十分類似）
+       isEmpty():如果佇列中不包含任何元素，返回true，否則則返回false。
+       size():返回佇列包含的元素個數，與陣列的length相似。
+    */
+
+    //1.enqueue(element(s)):向佇列尾部添加一個(或多個)新的項目。
+    this.enqueue = function(element){
+       items.push(element);
+    };
+    //2.dequeue():移除佇列的第一(即排在佇列最前面的)項目，並返回被移除的元素。
+    this.dequeue = function(){
+        return items.shift();
+    };
+
+    //3.front():返回佇列中第一個元素，最先被添加，也最先被移除的元素。佇列通常不做任何變動（不移除元素，指返回元素資訊，與Stack方法裡的peek()十分類似）
+    this.front = function(){
+        return items[0];
+    };
+
+    //4.isEmpty():如果佇列為空，他會返回true，否則返回false（注意這個方法和Stack類別裡是一樣的）。
+    this.isEmpty = function(){
+       return items.length===0;
+    };
+    
+    //5.size():顯示陣列內部的長度。
+    this.size=function(){
+       return items.length;
+    };
+
+    this.print=function(){
+        console.log(items.toString());
+    };
+}
+var queue = new Queue();
+console.log(queue.isEmpty());
+
+/*優先佇列
+元素的添加和移除是基於優先排序的，比方說機場登機，頭等艙乘客要優先於經濟艙的乘客，老人孕婦和小孩的登機順序比一般乘客優先
+*/
+function PriorityQueue(){
+    var items = [];
+
+    function QueueElement(element,priority){
+        this.element = element;
+        this.priority = priority;
+    }
+
+    this.enqueue = function(element,priority){
+        var queueElement = new QueueElement(element,priority);
+        if(this.isEmpty()){
+            items.push(queueElement);
+        }else{
+            var added = false;
+            for(var i=0;i<items.length;i++){
+                if(queueElement.priority < items[i].priority){
+                    items.splice(i,0,queueElement);//把queueElement加到陣列索引值i後面
+                    added=true;
+                    break;
+                }
+            }
+            if(!added){
+                items.push(queueElement);
+            }
+        }
+    };
+
+    this.dequeue = function(){
+        return items.shift();
+    };
+
+    this.front = function(){
+        return items[0];
+    };
+
+    this.isEmpty = function(){
+       return items.length===0;
+    };
+    
+    this.size=function(){
+       return items.length;
+    };
+
+    this.print=function(){
+        for(let i=0;i<items.length;i++){
+            console.log(items[i]);
+        }
+    };
+}
+
+var priorityQueue=new PriorityQueue();
+priorityQueue.enqueue('John',2);
+priorityQueue.enqueue('Jack',2);
+priorityQueue.enqueue('Leticia',1);
+priorityQueue.print();
+
+</script>
+</body>
+</html>

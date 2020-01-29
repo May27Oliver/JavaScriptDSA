@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- LIFO，後進先出 -->
+    <script>
+    function Stack(){
+        //各種屬性和方法的宣告
+
+        //首先需要一種資料結構來儲存堆疊裡的元素，我們選擇陣列。
+        var items = [];
+        /*
+        接下來，要為我們的堆疊宣告一些方法：
+        push(element(s)):添加一個或幾個新元素到堆疊頂部。
+        pop():移除堆疊頂部的元素，同時返回被移除的元素。
+        peek():返回堆疊頂部的元素，返回堆疊頂部的元素，不對堆疊做任何修改（這個方法不會移除堆疊頂部的元素，僅僅返回它）。
+        isEmpty():如果堆疊裡沒有任何元素就返回true，否則返回false。
+        clear():移除堆疊裡的所有元素。
+        size():返回堆疊裡的元素個數。這個方法和陣列的length屬性很像。
+        
+        我們要實作的第一個方法是push，這個方法負責往堆疊裡添加新元素，有一點很重要，該方法只添加新元素到堆疊頂部，也就是堆疊末尾。
+        */
+        this.push=function(element){
+            items.push(element);
+        };
+        /*pop，移除堆疊裡的元素，移出的是最後添加的元素*/
+        this.pop=function(){
+            return items.pop();
+        };
+        /*peek，查詢堆疊最後添加的元素是什麼*/
+        this.peek=function(){
+            return items[items.length-1];
+        };
+        /*isEmpty，簡單判斷陣列內部長度是否為零*/
+        this.isEmpty = function(){
+            return items.length===0;
+        };
+        /*size，顯示陣列內部的長度*/
+        this.size=function(){
+            return items.length;
+        }
+        /*clear，移除堆疊內的所有元素*/
+        this.clear= function(){
+            items = [];
+        };
+        /*print，把堆疊裡的所有元素輸入到主控台*/
+        this.print=function(){
+            console.log(items.toString());
+        };
+    }
+
+    var stack=new Stack();
+    // console.log(stack.isEmpty());//是空的true
+    
+    stack.push(5);
+    stack.push(8);
+    // console.log(stack.peek());//輸出8
+
+    stack.push(11);
+    stack.push(15);
+
+    stack.pop();
+    stack.pop();
+    // stack.print();
+
+    /*十進位到二進位*/
+    function dividBy2(decNumber){
+        var remStack = new Stack(),
+        rem,
+        binaryString = '';
+        while(decNumber>0){
+            rem = Math.floor(decNumber%2);//取餘數
+            remStack.push(rem);//將餘數存進remStack這個陣列
+            decNumber=Math.floor(decNumber / 2);//將除二的商數指派近decNumber再跑一次迴圈
+        }
+        while(!remStack.isEmpty()){
+            binaryString += remStack.pop().toString();
+        }
+        return binaryString;
+    }
+    console.log(dividBy2(89));
+    </script>
+</body>
+</html>
